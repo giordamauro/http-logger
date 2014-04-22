@@ -46,7 +46,7 @@ public class ServletContainer extends HttpServlet {
 
 		builder.append(String.format("HTTP Request : %s %s\n", request.getMethod(), request.getPathInfo()));
 
-		if (!request.getQueryString().isEmpty()) {
+		if (request.getQueryString() != null) {
 			builder.append("?" + request.getQueryString() + "\n");
 		}
 
