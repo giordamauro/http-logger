@@ -40,17 +40,16 @@ public class ServletContainer extends HttpServlet {
 	@Override
 	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		logger.info(String.format("Servicing request '%s: %s' from ip '%s'", request.getMethod(), request.getPathInfo(), request.getRemoteAddr()));
-
 		StringBuilder builder = new StringBuilder();
 
+		builder.append(String.format("Servicing request '%s: %s' from ip '%s'\n", request.getMethod(), request.getPathInfo(), request.getRemoteAddr()));
 		builder.append(String.format("HTTP Request : %s %s\n", request.getMethod(), request.getPathInfo()));
 
 		if (request.getQueryString() != null) {
 			builder.append("?" + request.getQueryString() + "\n");
 		}
 
-		builder.append("\n");
+		builder.append("-Headers --------------------------\n");
 
 		@SuppressWarnings("unchecked")
 		Enumeration<String> headerNames = (Enumeration<String>) request.getHeaderNames();
@@ -61,10 +60,10 @@ public class ServletContainer extends HttpServlet {
 		}
 
 		String content = getContentAsString(request.getInputStream());
-		builder.append("\n" + content);
+		builder.append("-Payload --------------------------\n" + content);
 
-		System.out.println(builder.toString());
-
+	    logger.info(builder.toString());
+		
 		response.setStatus(200);
 	}
 
